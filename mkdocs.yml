@@ -1,1 +1,8 @@
-site_name: My Docs
+site_name: Pact User Manual
+theme:
+  name: readthedocs
+  highlightjs: true
+plugins:
+  - search
+markdown_extensions:
+  - admonition
