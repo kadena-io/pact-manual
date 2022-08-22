@@ -1,39 +1,37 @@
 # Capabilities
 
-Pact capablities make it possible to secure code, by ensuring that one part a
-module may only be called by another part of that module -- after certain
-criteria have been met.
+Pact capablities make it possible to secure code by specifying how and when
+that code may be called.
 
-Consider the exmaple of transferring money at a bank. This involves walking up
-to a teller's window and asking them to transfer some amount of money, say
-$100, to another account. When this request is made, several things are
-verified:
+Consider the example of transferring money at a bank. This involves walking up
+to a teller's window and asking them to transfer money, say USD 100, to
+another account. When this request is made, several things must be checked:
 
-1. That you are indeed the account holder.
-2. That you have enough funds for the transfer.
-3. That the destination account exists.
+1. that you are indeed the account holder;
+2. that you have enough funds for the transfer;
+3. that the destination account exists.
 
-Once these are verified, then and only then will the teller withdraw $100 from
-your account, and deposit into the destination account. Further, the teller
-may only do this if they have your permission, so there are a few more things
-that must also hold true:
+Once these are verified, then and only then will the teller withdraw USD 100
+from your account and deposit it into the destination account. Further, the
+teller may only do this if you have given permission, so there are a few more
+things that must also hold true:
 
-1. The teller has your permission to withdraw from your account.
-2. The teller has the bank's permission to deposit into another account.
-3. All of the funds are transferred, so that nothing is destroyed or created.
-   This is purely a movement of funds between accounts.
+1. the teller has permission to withdraw from your account;
+2. the teller has the bank's permission to deposit into another account;
+3. all of the funds are transferred, so nothing is destroyed or created.
 
-These are a lot of details to get right, and it's not that uncommon for bugs
-to creep into accounting systems if they fail to test all possible scenarios
-(What if I ask to transfer zero dollars? What if the destination account
-closes mid-transfer? What if the clerk's transfer rights are not revoked
-immediately after the transaction?).
+This is a lot of detail to get right, and it's not that uncommon for bugs to
+creep into accounting systems if they don't test all possible scenarios (What
+if I ask to transfer zero dollars? What if the destination account closes
+mid-transfer? What if the clerk's transfer rights are not revoked immediately
+after the transaction?).
 
-Pact capabilities resolve some of these issues by removing edge cases, and
-allowing you to encode these conditions into the transfer algorithm itself.
+Pact capabilities resolve many of these issues by removing edge cases, and
+allowing you to encode such conditions in the transfer algorithm itself.
 
-Let's start by writing a bank transfer contract in Pact, and then we'll go
-over it step by step in greater detail:
+Let's start by writing a bank transfer contract in Pact, which we'll go
+over it step by step in greater detail. This example makes use of every
+feature of capabilities.
 ```lisp
 {% include "bank.repl" %}
 ```
