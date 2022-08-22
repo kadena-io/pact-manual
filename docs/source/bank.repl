@@ -1,0 +1,34 @@
+(module bank GOV
+  (defcap GOV () true)
+
+  (defcap DEBIT (sender:string)
+    (enforce (!= sender "") "invalid sender account"))
+  (defcap CREDIT (receiver:string)
+    (enforce (!= receiver "") "invalid receiver account"))
+
+  (defcap TRANSFER (sender:string receiver:string amount:decimal)
+    @managed amount TRANSFER-mgr
+    (enforce (!= sender receiver) "same sender and receiver")
+    (enforce (> amount 0.0) "negative or zero amount")
+    (compose-capability (DEBIT sender))
+    (compose-capability (CREDIT receiver)))
+
+  (defun TRANSFER-mgr:decimal (have:decimal want:decimal)
+    (enforce (<= want have) "insufficient funds")
+    (- have want))
+
+  (defun transfer-funds (sender:string receiver:string amount:decimal)
+    (require-capability (TRANSFER sender receiver amount))
+    (print "Transferred!")
+    )
+
+  (defun authorize-transfer-funds
+      (sender:string receiver:string amount:decimal)
+    (with-capability (TRANSFER sender receiver amount)
+      (transfer-funds sender receiver amount))))
+
+;; Although we manually install the capabality for the example, ordinarily it
+;; is attached as signed metadata that's part of the blockchain transaction.
+(install-capability (TRANSFER "john" "david" 120.0))
+
+(authorize-transfer-funds "john" "david" 30.0)

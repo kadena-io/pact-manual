@@ -1,8 +1,21 @@
 site_name: Pact User Manual
+
 theme:
   name: readthedocs
   highlightjs: true
+  hljs_languages:
+    - lisp
+
 plugins:
   - search
+  - include-markdown
+
 markdown_extensions:
   - admonition
+  - pymdownx.highlight:
+      anchor_linenums: true
+      use_pygments: false
+      guess_lang: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
