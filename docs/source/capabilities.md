@@ -7,34 +7,46 @@ Consider the example of transferring money at a bank. This involves walking up
 to a teller's window and asking them to transfer money, say USD 100, to
 another account. When this request is made, several things must be checked:
 
-1. that you are indeed the account holder;
-2. that you have enough funds for the transfer;
-3. that the destination account exists.
+- that you are indeed the account holder;
+- that you have enough funds for the transfer;
+- that the destination account exists.
 
 Once these are verified, then and only then will the teller withdraw USD 100
 from your account and deposit it into the destination account. Further, the
 teller may only do this if you have given permission, so there are a few more
 things that must also hold true:
 
-1. the teller has permission to withdraw from your account;
-2. the teller has the bank's permission to deposit into another account;
-3. all of the funds are transferred, so nothing is destroyed or created.
+- the teller has permission to withdraw from your account;
+- the teller has the bank's permission to deposit into another account;
+- all of the funds are transferred, so nothing is destroyed or created.
 
-This is a lot of detail to get right, and it's not that uncommon for bugs to
-creep into accounting systems if they don't test all possible scenarios (What
-if I ask to transfer zero dollars? What if the destination account closes
+This is a lot of detail to get right, and it's not uncommon for bugs to creep
+into accounting systems that don't test all the possible scenarios (What if I
+ask to transfer zero dollars? What if the destination account closes
 mid-transfer? What if the clerk's transfer rights are not revoked immediately
 after the transaction?).
 
 Pact capabilities resolve many of these issues by removing edge cases, and
 allowing you to encode such conditions in the transfer algorithm itself.
 
-Let's start by writing a bank transfer contract in Pact, which we'll go
-over it step by step in greater detail. This example makes use of every
-feature of capabilities.
+This section will introduce each of the features of capabilities start by
+writing a bank transfer contract in Pact, step by step. See the end of the
+section for the full example.
+
+## Module governance
+
+The first place you'll see a capability in action is the one used for
+governance of a module. This capability
+
 ```lisp
-{% include "bank.repl" %}
+(module bank GOV
+  (defcap GOV () true)
+
+  ;; module entries go here
+)
 ```
+
+<!---------------------------------------------------------------------------->
 
 ## What is a capability?
 
